@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cyberpunk</title>
+<style>
+  html,body{
+    margin:0;padding:0;height:100%;
+    background:#ff0000;
+    font-family:system-ui,Segoe UI,Roboto,sans-serif;
+    color:#fff;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:flex-start;
+  }
+  .foto{
+    width:200px;      /* tamaño reducido */
+    max-width:60%;
+    display:block;
+    margin-top:20px;
+    border-radius:8px;
+  }
+  .texto{
+    margin-top:18px;
+    padding:0 20px;
+    text-align:center;
+    font-size:clamp(16px,4.5vw,24px);
+    font-weight:800;
+    line-height:1.4;
+    text-shadow:0 2px 6px rgba(0,0,0,.5);
+    letter-spacing:.5px;
+  }
+  .ciudad{ text-decoration:underline; }
+</style>
+</head>
+<body>
+  <img class="foto" src="https://files.catbox.moe/9bbcr9.jpg" alt="">
+  <div class="texto">
+    Hola Tu ciudad es <span class="ciudad" id="ciudad">...</span><br>
+    Cyberpunk Sabe donde vives ahora Paga 20 dolares para que no filtre tu dirrecion.
+  </div>
+
+<script>
+const out = document.getElementById("ciudad");
+
+async function porIP(){
+  // ipapi.co: gratis, sin key, HTTPS
+  try{
+    const r = await fetch("https://ipapi.co/json/");
+    const j = await r.json();
+    return j.city || j.region || j.country_name || "desconocida";
+  }catch(e){
+    return "desconocida";
+  }
+}
+
+(async () => {
+  out.textContent = await porIP();
+})();
+</script>
+</body>
+</html>
